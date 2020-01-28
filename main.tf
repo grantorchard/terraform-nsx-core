@@ -10,6 +10,10 @@ data nsxt_logical_tier0_router "prod" {
   display_name = "t0-router"
 }
 
+data nsxt_transport_zone "overlay" {
+  display_name = "tz-0"
+}
+
 resource nsxt_logical_router_link_port_on_tier0 "prod_web" {
   description       = ""
   display_name      = "prod_web"
@@ -36,7 +40,24 @@ resource nsxt_logical_tier1_router "prod_web" {
   advertise_lb_snat_ip_routes = false
 }
 
-resource "nsxt_logical_router_downlink_port" "prod_web" {
+resource nsxt_logical_switch "prod_web" {
+  admin_state       = "UP"
+  description       = "LS1 provisioned by Terraform"
+  display_name      = "LS1"
+  transport_zone_id = data.nsxt_transport_zone.overlay.id
+  replication_mode  = "MTEP"
+}
+
+
+resource nsxt_logical_port "prod_web" {
+  admin_state       = "UP"
+  description       = "LP1 provisioned by Terraform"
+  display_name      = "LP1"
+  logical_switch_id = nsxt_logical_switch.prod_web.id
+}
+
+
+resource nsxt_logical_router_downlink_port "prod_web" {
   description                   = ""
   display_name                  = "prod_web"
   logical_router_id             = nsxt_logical_tier1_router.prod_web.id
