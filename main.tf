@@ -29,9 +29,17 @@ resource nsxt_logical_tier1_router "prod_web" {
   failover_mode               = "PREEMPTIVE"
   edge_cluster_id             = data.nsxt_edge_cluster.prod.id
   enable_router_advertisement = true
-  advertise_connected_routes  = false
+  advertise_connected_routes  = true
   advertise_static_routes     = true
   advertise_nat_routes        = true
   advertise_lb_vip_routes     = true
   advertise_lb_snat_ip_routes = false
+}
+
+resource "nsxt_logical_router_downlink_port" "prod_web" {
+  description                   = ""
+  display_name                  = "prod_web"
+  logical_router_id             = nsxt_logical_tier1_router.prod_web.id
+  linked_logical_switch_port_id = nsxt_logical_port.prod_web.id
+  ip_address                    = "10.0.30.1/24"
 }
