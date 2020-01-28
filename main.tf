@@ -11,9 +11,4 @@ resource "nsxt_logical_tier0_router" "prod" {
   description            = "Production T0 router"
   high_availability_mode = "ACTIVE_STANDBY"
   edge_cluster_id        = data.nsxt_edge_cluster.prod.id
-
-  tag {
-    environment = "production"
-    managed_by   = "Terraform Enterprise"
-  }
 }
