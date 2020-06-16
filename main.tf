@@ -1,10 +1,3 @@
-provider nsxt {
-  allow_unverified_ssl = var.allow_unverified_ssl
-  username = "admin"
-  password = "HashiCorp123!"
-  host = "nsx-manager.humblelab.com"
-}
-
 data nsxt_policy_edge_cluster "this" {
   display_name = var.edge_cluster_name
 }
@@ -19,7 +12,7 @@ data nsxt_policy_transport_zone "vlan" {
 
 resource nsxt_policy_vlan_segment "this" {
   display_name        = "uplink"
-  description         = "Terraform provisioned VLAN Segment"
+  description         = var.description
   transport_zone_path = data.nsxt_policy_transport_zone.vlan.path
   vlan_ids            = ["0"]
 
@@ -29,11 +22,9 @@ resource nsxt_policy_vlan_segment "this" {
   }
 }
 
-
-
 resource nsxt_policy_tier0_gateway "this" {
-  description = var.description
-  display_name              = "Tier0-gw1"
+  description               = var.description
+  display_name              = "tier0 gateway"
   failover_mode             = "NON_PREEMPTIVE"
   default_rule_logging      = true
   enable_firewall           = true
@@ -46,7 +37,7 @@ resource nsxt_policy_tier0_gateway "this" {
 
 
 resource nsxt_policy_tier0_gateway_interface "this" {
-  display_name           = "segment0_interface"
+  display_name           = "tier0 uplink interface"
   description            = var.description
   type                   = "EXTERNAL"
   gateway_path           = nsxt_policy_tier0_gateway.this.path
@@ -66,8 +57,8 @@ resource nsxt_policy_static_route "this" {
   }
 
   tag {
-    scope = "color"
-    tag   = "blue"
+    scope = "terraform managed"
+    tag   = "true"
   }
 }
 /*
