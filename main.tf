@@ -3,15 +3,15 @@ data nsxt_policy_edge_cluster "this" {
 }
 
 data nsxt_policy_transport_zone "overlay" {
-  display_name = "tz-0"
+  display_name = var.tz_overlay_name
 }
 
 data nsxt_policy_transport_zone "vlan" {
-  display_name = "tz-vlan"
+  display_name = var.tz_vlan_name
 }
 
 resource nsxt_policy_vlan_segment "this" {
-  display_name        = "uplink"
+  display_name        = "uplink segment"
   description         = var.description
   transport_zone_path = data.nsxt_policy_transport_zone.vlan.path
   vlan_ids            = ["0"]

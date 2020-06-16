@@ -17,3 +17,11 @@ variable name {
   default = ""
   description = "The name that will be used for provisioning of all components. Per our standard this should be %environment%_%app% (prod_web)."
 }
+
+variable tz_overlay_name {
+  type = string
+}
+
+variable tz_vlan_name {
+  type = string
+}
