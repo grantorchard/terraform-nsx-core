@@ -9,3 +9,7 @@ output tier0_path {
 output transport_zone_path {
   value = data.nsxt_policy_transport_zone.overlay.path
 }
+
+output vlan_segment_path {
+  value = nsxt_policy_vlan_segment.this.path
+}
