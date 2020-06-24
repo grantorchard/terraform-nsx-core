@@ -26,7 +26,7 @@ resource nsxt_policy_tier0_gateway "this" {
   description               = var.description
   display_name              = "tier0 gateway"
   failover_mode             = "NON_PREEMPTIVE"
-  default_rule_logging      = true
+  default_rule_logging      = false
   enable_firewall           = true
   force_whitelisting        = false
   ha_mode                   = "ACTIVE_STANDBY"
